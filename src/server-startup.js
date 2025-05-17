@@ -246,10 +246,8 @@ export class ServerStartup {
             port: Number(url.port || 443),
             ipv6Only: false
         });
-                // see https://nodejs.org/api/net.html#serverlisten for why ipv6Only is used
-                ipv6Only: true,
-            });
-        }
+        });
+    }
 
     /**
      * Creates an HTTP server.
@@ -263,9 +261,13 @@ export class ServerStartup {
             server.on('error', reject);
             server.on('listening', resolve);
 
-                // see https://nodejs.org/api/net.html#serverlisten for why ipv6Only is used
-                ipv6Only: true,
-            });
+            let host = url.hostname;
+            if (ipVersion === 6) host = urlHostnameToIPv6(url.hostname);
+        server.listen({
+            host: '0.0.0.0',
+            port: Number(url.port || 443),
+            ipv6Only: false
+        });
         });
     }
 
@@ -343,7 +345,9 @@ export class ServerStartup {
             }
             if (hasIPv6) {
                 if (useIPv6) {
+                    console.log(color.green('IPv6 support detected'));
                 } else {
+                    console.log('IPv6 support detected (but disabled)');
                 }
             }
 
@@ -353,7 +357,9 @@ export class ServerStartup {
             }
             if (hasIPv4) {
                 if (useIPv4) {
+                    console.log(color.green('IPv4 support detected'));
                 } else {
+                    console.log('IPv4 support detected (but disabled)');
                 }
             }
 
