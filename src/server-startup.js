@@ -239,12 +239,12 @@ export class ServerStartup {
             server.on('error', reject);
             server.on('listening', resolve);
 
-            let host = '0.0.0.0'; // Force external binding
-            server.listen({
-                host: host,
-                port: Number(url.port || 443),
-                ipv6Only: false,
-            });
+            let host = url.hostname;
+            if (ipVersion === 6) host = urlHostnameToIPv6(url.hostname);
+        server.listen({
+            host: '0.0.0.0',
+            port: Number(url.port || 443),
+            ipv6Only: false,
         });
     }
 
@@ -262,12 +262,10 @@ export class ServerStartup {
 
             let host = url.hostname;
             if (ipVersion === 6) host = urlHostnameToIPv6(url.hostname);
-            server.listen({
-                host: host,
-                port: Number(url.port || 80),
-                // see https://nodejs.org/api/net.html#serverlisten for why ipv6Only is used
-                ipv6Only: true,
-            });
+        server.listen({
+            host: '0.0.0.0',
+            port: Number(url.port || 443),
+            ipv6Only: false,
         });
     }
 
