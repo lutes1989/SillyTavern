@@ -249,8 +249,7 @@ export class ServerStartup {
                 // see https://nodejs.org/api/net.html#serverlisten for why ipv6Only is used
                 ipv6Only: true,
             });
-        });
-    }
+        }
 
     /**
      * Creates an HTTP server.
