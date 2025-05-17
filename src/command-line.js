@@ -41,8 +41,8 @@ export class CommandLineParser {
         /** @type {CommandLineArguments} */
         this.default = Object.freeze({
             dataRoot: './data',
-            port: 8000,
-            listen: false,
+            process.env.PORT || 8000
+            listen: true,
             listenAddressIPv6: '[::]',
             listenAddressIPv4: '0.0.0.0',
             enableIPv4: true,
